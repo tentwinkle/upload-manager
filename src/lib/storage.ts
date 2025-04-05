@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { createClient } from '@supabase/supabase-js';
+// import { createClient } from '@supabase/supabase-js';
 
 // Determine if we're using cloud storage or local storage
 const useCloudStorage = !!env.CLOUD_STORAGE_ENABLED;
@@ -20,7 +20,7 @@ if (!useCloudStorage) {
   }
 }
 
-const supabaseClient = createClient(env.SUPABASE_URL!, env.SUPABASE_SERVICE_ROLE_KEY!);
+// const supabaseClient = createClient(env.SUPABASE_URL!, env.SUPABASE_SERVICE_ROLE_KEY!);
 
 // Storage interface
 export const storage = {
@@ -37,23 +37,23 @@ export const storage = {
       // This is where you would implement the cloud storage upload logic
       // For example, with Supabase Storage:
       
-      const { data: uploadData, error } = await supabaseClient
-        .storage
-        .from('files')
-        .upload(`public/${filename}`, data, {
-          contentType,
-          upsert: false
-        });
+      // const { data: uploadData, error } = await supabaseClient
+      //   .storage
+      //   .from('files')
+      //   .upload(`public/${filename}`, data, {
+      //     contentType,
+      //     upsert: false
+      //   });
       
-      if (error) throw error;
-      return uploadData.path;
+      // if (error) throw error;
+      // return uploadData.path;
       
       // For now, we'll just use local storage as a fallback
-      // return await localUploadFile(filename, data);
+      return await localUploadFile(filename, data);
     } else {
       // Use local file system storage
-      // return await localUploadFile(filename, data);
-      throw new Error('Cloud storage not enabled');
+      return await localUploadFile(filename, data);
+      // throw new Error('Cloud storage not enabled');
     }
   },
   
@@ -68,20 +68,20 @@ export const storage = {
       // This is where you would implement the cloud storage download logic
       // For example, with Supabase Storage:
       
-      const { data, error } = await supabaseClient
-        .storage
-        .from('files')
-        .download(filePath);
+      // const { data, error } = await supabaseClient
+      //   .storage
+      //   .from('files')
+      //   .download(filePath);
       
-      if (error) throw error;
-      return Buffer.from(await data.arrayBuffer());
+      // if (error) throw error;
+      // return Buffer.from(await data.arrayBuffer());
       
       // For now, we'll just use local storage as a fallback
-      // return await localGetFile(filePath);
+      return await localGetFile(filePath);
     } else {
       // Use local file system storage
-      // return await localGetFile(filePath);
-      return Buffer.from('');
+      return await localGetFile(filePath);
+      // return Buffer.from('');
     }
   },
   
@@ -95,46 +95,46 @@ export const storage = {
       // This is where you would implement the cloud storage delete logic
       // For example, with Supabase Storage:
       
-      const { error } = await supabaseClient
-        .storage
-        .from('files')
-        .remove([filePath]);
+      // const { error } = await supabaseClient
+      //   .storage
+      //   .from('files')
+      //   .remove([filePath]);
       
-      if (error) throw error;
+      // if (error) throw error;
       
       // For now, we'll just use local storage as a fallback
       // await localDeleteFile(filePath);
     } else {
       // Use local file system storage
-      // await localDeleteFile(filePath);
+      await localDeleteFile(filePath);
     }
   }
 };
 
 // Local storage implementation
-// async function localUploadFile(filename: string, data: Uint8Array): Promise<string> {
-//   const __filename = fileURLToPath(import.meta.url);
-//   const __dirname = dirname(__filename);
-//   const filePath = path.join(__dirname, '../../uploads', filename);
+async function localUploadFile(filename: string, data: Uint8Array): Promise<string> {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const filePath = path.join(__dirname, '../../uploads', filename);
   
-//   await fs.promises.writeFile(filePath, data);
+  await fs.promises.writeFile(filePath, data);
   
-//   // Return the relative path to the file
-//   return filename;
-// }
+  // Return the relative path to the file
+  return filename;
+}
 
-// async function localGetFile(filePath: string): Promise<Buffer> {
-//   const __filename = fileURLToPath(import.meta.url);
-//   const __dirname = dirname(__filename);
-//   const fullPath = path.join(__dirname, '../../uploads', filePath);
+async function localGetFile(filePath: string): Promise<Buffer> {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const fullPath = path.join(__dirname, '../../uploads', filePath);
   
-//   return await fs.promises.readFile(fullPath);
-// }
+  return await fs.promises.readFile(fullPath);
+}
 
-// async function localDeleteFile(filePath: string): Promise<void> {
-//   const __filename = fileURLToPath(import.meta.url);
-//   const __dirname = dirname(__filename);
-//   const fullPath = path.join(__dirname, '../../uploads', filePath);
+async function localDeleteFile(filePath: string): Promise<void> {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const fullPath = path.join(__dirname, '../../uploads', filePath);
   
-//   await fs.promises.unlink(fullPath);
-// }
+  await fs.promises.unlink(fullPath);
+}
