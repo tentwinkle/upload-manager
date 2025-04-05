@@ -39,7 +39,7 @@ export const storage = {
       
       const { data: uploadData, error } = await supabaseClient
         .storage
-        .from('files')
+        .from('uploads')
         .upload(`public/${filename}`, data, {
           contentType,
           upsert: false
@@ -70,7 +70,7 @@ export const storage = {
       
       const { data, error } = await supabaseClient
         .storage
-        .from('files')
+        .from('uploads')
         .download(filePath);
       
       if (error) throw error;
