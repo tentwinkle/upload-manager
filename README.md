@@ -10,6 +10,12 @@ A simple file upload system built with SvelteKit, TypeScript, and PostgreSQL.
 - View file details and preview supported file types
 - Responsive design
 
+## Video Demonstration
+
+https://github.com/tentwinkle/upload-manager/assets/demo-video.mp4
+
+*Video: Demonstration of the file upload system in action*
+
 ## Tech Stack
 
 - **Framework**: SvelteKit
@@ -24,60 +30,94 @@ A simple file upload system built with SvelteKit, TypeScript, and PostgreSQL.
 - [Node.js](https://nodejs.org/) (v16 or later)
 - [Docker](https://www.docker.com/) and Docker Compose
 
+## Repository Branches
+
+This repository has two main branches:
+
+- **main** - Production-ready code configured for cloud storage deployment
+- **develop** - Development environment configured for local testing with local file storage
+
+Choose the appropriate branch based on your needs:
+
+```bash
+# For cloud storage setup
+git checkout main
+
+# For local development environment
+git checkout develop
+```
+
 ## Setup Instructions
 
 ### Option 1: Using Docker (Recommended)
 
-1. Clone the repository:
+1. Clone the repository and checkout the appropriate branch:
 
-   ```bash
-   git clone https://github.com/yourusername/file-upload-system.git
-   cd file-upload-system
-   ```
+```shellscript
+git clone https://github.com/yourusername/file-upload-system.git
+cd file-upload-system
+
+# Choose develop branch for local development (local storage)
+git checkout develop
+```
+
 
 2. Build and run the Docker containers:
 
-   ```bash
-   docker-compose up -d
-   ```
+```shellscript
+docker-compose up -d
+```
+
 
 3. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
+
 ### Option 2: Manual Setup
 
-1. Clone the repository:
+1. Clone the repository and checkout the appropriate branch:
 
-   ```bash
-   git clone https://github.com/yourusername/file-upload-system.git
-   cd file-upload-system
-   ```
+```shellscript
+git clone https://github.com/yourusername/file-upload-system.git
+cd file-upload-system
+
+# Choose develop branch for local develop (local storage)
+git checkout develop
+```
+
 
 2. Install dependencies:
 
-   ```bash
-   yarn install
-   ```
+```shellscript
+yarn install
+```
+
 
 3. Setup PostgreSQL:
+
 
 - Install PostgreSQL if you don't have it
 - Create a database named `fileupload`
 - Update the `DATABASE_URL` in `.env` file
 
+
 4. Create a `.env` file:
+
 
 ```plaintext
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fileupload
-CLOUD_STORAGE_ENABLED=false
+# Set to true on main branch, false on develop branch
+CLOUD_STORAGE_ENABLED=false  # or true if using main branch
 ```
 
 5. Start the development server:
 
-   ```bash
-   yarn dev
-   ```
+```shellscript
+yarn dev
+```
+
 
 6. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+
 
 ## Cloud Storage Setup (Optional)
 
@@ -88,13 +128,19 @@ To use cloud storage instead of local file system:
 3. Set `CLOUD_STORAGE_ENABLED=true` in your environment variables
 4. Add any required API keys or credentials to your environment variables
 
+
+> **Note**: The `main` branch is already configured for cloud storage, while the `develop` branch is set up for local storage.
+
+
+
 ## Project Structure
 
-- `src/routes/` - SvelteKit routes
+- `src/routes/` - SvelteKit routes 
 - `src/components/` - Reusable Svelte components
 - `src/lib/` - Utility functions and modules
 - `src/types.ts` - TypeScript type definitions
 - `uploads/` - Local storage for uploaded files (when using local storage)
+
 
 ## API Endpoints
 
@@ -103,5 +149,3 @@ To use cloud storage instead of local file system:
 - `GET /api/files/:id` - Get file details
 - `GET /api/files/:id/download` - Download a file
 - `GET /api/files/:id/view` - View a file inline
-
-

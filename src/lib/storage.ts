@@ -75,12 +75,7 @@ export const storage = {
       
       if (error) throw error;
       return Buffer.from(await data.arrayBuffer());
-      
-      // For now, we'll just use local storage as a fallback
-      // return await localGetFile(filePath);
     } else {
-      // Use local file system storage
-      // return await localGetFile(filePath);
       return Buffer.from('');
     }
   },
@@ -101,40 +96,8 @@ export const storage = {
         .remove([filePath]);
       
       if (error) throw error;
-      
-      // For now, we'll just use local storage as a fallback
-      // await localDeleteFile(filePath);
     } else {
-      // Use local file system storage
-      // await localDeleteFile(filePath);
+      throw new Error('Cloud storage not enabled');
     }
   }
 };
-
-// Local storage implementation
-// async function localUploadFile(filename: string, data: Uint8Array): Promise<string> {
-//   const __filename = fileURLToPath(import.meta.url);
-//   const __dirname = dirname(__filename);
-//   const filePath = path.join(__dirname, '../../uploads', filename);
-  
-//   await fs.promises.writeFile(filePath, data);
-  
-//   // Return the relative path to the file
-//   return filename;
-// }
-
-// async function localGetFile(filePath: string): Promise<Buffer> {
-//   const __filename = fileURLToPath(import.meta.url);
-//   const __dirname = dirname(__filename);
-//   const fullPath = path.join(__dirname, '../../uploads', filePath);
-  
-//   return await fs.promises.readFile(fullPath);
-// }
-
-// async function localDeleteFile(filePath: string): Promise<void> {
-//   const __filename = fileURLToPath(import.meta.url);
-//   const __dirname = dirname(__filename);
-//   const fullPath = path.join(__dirname, '../../uploads', filePath);
-  
-//   await fs.promises.unlink(fullPath);
-// }
