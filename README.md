@@ -12,7 +12,8 @@ A simple file upload system built with SvelteKit, TypeScript, and PostgreSQL.
 
 ## Video Demonstration
 
-https://github.com/tentwinkle/upload-manager/assets/demo-video.mp4
+![Demo Video](aseets/demo-video.gif)
+https://github.com/tentwinkle/upload-manager/tree/main/assets/demo-video.mp4
 
 *Video: Demonstration of the file upload system in action*
 
