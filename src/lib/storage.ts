@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-// import { createClient } from '@supabase/supabase-js';
 
 // Determine if we're using cloud storage or local storage
 const useCloudStorage = !!env.CLOUD_STORAGE_ENABLED;
@@ -33,21 +32,6 @@ export const storage = {
    */
   uploadFile: async (filename: string, data: Uint8Array, contentType: string): Promise<string> => {
     if (useCloudStorage) {
-      // If we're using cloud storage (e.g., Supabase Storage, AWS S3, etc.)
-      // This is where you would implement the cloud storage upload logic
-      // For example, with Supabase Storage:
-      
-      // const { data: uploadData, error } = await supabaseClient
-      //   .storage
-      //   .from('files')
-      //   .upload(`public/${filename}`, data, {
-      //     contentType,
-      //     upsert: false
-      //   });
-      
-      // if (error) throw error;
-      // return uploadData.path;
-      
       // For now, we'll just use local storage as a fallback
       return await localUploadFile(filename, data);
     } else {
@@ -64,18 +48,6 @@ export const storage = {
    */
   getFile: async (filePath: string): Promise<Buffer> => {
     if (useCloudStorage) {
-      // If we're using cloud storage
-      // This is where you would implement the cloud storage download logic
-      // For example, with Supabase Storage:
-      
-      // const { data, error } = await supabaseClient
-      //   .storage
-      //   .from('files')
-      //   .download(filePath);
-      
-      // if (error) throw error;
-      // return Buffer.from(await data.arrayBuffer());
-      
       // For now, we'll just use local storage as a fallback
       return await localGetFile(filePath);
     } else {
@@ -90,20 +62,9 @@ export const storage = {
    * @param filePath The path to the file in storage
    */
   deleteFile: async (filePath: string): Promise<void> => {
-    if (useCloudStorage) {
-      // If we're using cloud storage
-      // This is where you would implement the cloud storage delete logic
-      // For example, with Supabase Storage:
-      
-      // const { error } = await supabaseClient
-      //   .storage
-      //   .from('files')
-      //   .remove([filePath]);
-      
-      // if (error) throw error;
-      
+    if (useCloudStorage) {  
       // For now, we'll just use local storage as a fallback
-      // await localDeleteFile(filePath);
+      await localDeleteFile(filePath);
     } else {
       // Use local file system storage
       await localDeleteFile(filePath);
