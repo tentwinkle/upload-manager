@@ -48,7 +48,7 @@ A simple file upload system built with SvelteKit, TypeScript, and PostgreSQL.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/file-upload-system.git
+   git clone https://github.com/tentwinkle/file-upload-system.git
    cd file-upload-system
    ```
 
