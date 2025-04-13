@@ -79,7 +79,7 @@ docker-compose up -d
 1. Clone the repository and checkout the appropriate branch:
 
 ```shellscript
-git clone https://github.com/yourusername/file-upload-system.git
+git clone https://github.com/tentwinkle/file-upload-system.git
 cd file-upload-system
 
 # Choose develop branch for local develop (local storage)
