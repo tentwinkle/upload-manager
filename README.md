@@ -56,8 +56,8 @@ git checkout develop
 1. Clone the repository and checkout the appropriate branch:
 
 ```shellscript
-git clone https://github.com/tentwinkle/file-upload-system.git
-cd file-upload-system
+git clone https://github.com/tentwinkle/upload-manager.git
+cd upload-manager
 
 # Choose develop branch for local development (local storage)
 git checkout develop
@@ -79,8 +79,8 @@ docker-compose up -d
 1. Clone the repository and checkout the appropriate branch:
 
 ```shellscript
-git clone https://github.com/tentwinkle/file-upload-system.git
-cd file-upload-system
+git clone https://github.com/tentwinkle/upload-manager.git
+cd upload-manager
 
 # Choose develop branch for local develop (local storage)
 git checkout develop
