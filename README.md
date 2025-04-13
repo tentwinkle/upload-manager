@@ -31,8 +31,8 @@ A simple file upload system built with SvelteKit, TypeScript, and PostgreSQL.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/tentwinkle/file-upload-system.git
-   cd file-upload-system
+   git clone https://github.com/tentwinkle/upload-manager.git
+   cd upload-manager
    ```
 
 2. Build and run the Docker containers:
@@ -48,8 +48,8 @@ A simple file upload system built with SvelteKit, TypeScript, and PostgreSQL.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/tentwinkle/file-upload-system.git
-   cd file-upload-system
+   git clone https://github.com/tentwinkle/upload-manager.git
+   cd upload-manager
    ```
 
 2. Install dependencies:
@@ -103,5 +103,3 @@ To use cloud storage instead of local file system:
 - `GET /api/files/:id` - Get file details
 - `GET /api/files/:id/download` - Download a file
 - `GET /api/files/:id/view` - View a file inline
-
-
