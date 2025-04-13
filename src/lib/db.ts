@@ -4,7 +4,7 @@ import { env } from '$env/dynamic/private';
 
 // Create a PostgreSQL connection pool
 const pool = new Pool({
-  connectionString: env.DATABASE_URL || 'postgresql://postgres:GoodLuck!!!@localhost:5433/fileupload',
+  connectionString: env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/fileupload',
 });
 
 // Initialize the database schema

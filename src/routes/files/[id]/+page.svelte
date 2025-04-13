@@ -187,7 +187,7 @@
 								/>
 							{:else if ['mp4', 'webm'].includes(getFileExtension(file.filename))}
 								<video src={`/api/files/${file.id}/view`} controls class="max-h-[500px] max-w-full"
-								></video>
+								><track kind="captions"></video>
               {:else if getFileExtension(file.filename) === 'mp3'}
                 <audio src={`/api/files/${file.id}/view`} controls class="max-h-[500px] max-w-full"></audio>
               {:else if getFileExtension(file.filename) === 'txt'}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { env } from '$env/dynamic/private';
 import fs from 'fs';
 import path from 'path';
@@ -18,8 +19,6 @@ if (!useCloudStorage) {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
 }
-
-// const supabaseClient = createClient(env.SUPABASE_URL!, env.SUPABASE_SERVICE_ROLE_KEY!);
 
 // Storage interface
 export const storage = {
@@ -53,7 +52,6 @@ export const storage = {
     } else {
       // Use local file system storage
       return await localGetFile(filePath);
-      // return Buffer.from('');
     }
   },
   
