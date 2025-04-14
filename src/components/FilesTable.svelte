@@ -79,7 +79,7 @@
 			{#each files as file (file.id)}
 				<tr
 					class="cursor-pointer hover:bg-gray-50"
-					on:click={() => window.location.href = `/files/${file.id}`}
+					on:click={() => (window.location.href = `/files/${file.id}`)}
 				>
 					<td class="px-4 py-3">
 						<div class="flex items-center">
@@ -93,7 +93,7 @@
 						</div>
 					</td>
 					<td class="px-4 py-3 text-sm">{file.category}</td>
-					<td class="px-4 py-3 uppercase text-sm">{file.language}</td>
+					<td class="px-4 py-3 text-sm uppercase">{file.language}</td>
 					<td class="px-4 py-3 text-sm">{file.provider}</td>
 					<td class="px-4 py-3 text-sm">
 						<div class="flex flex-wrap gap-1">
@@ -103,10 +103,11 @@
 						</div>
 					</td>
 					<td class="px-4 py-3 text-sm">{formatDate(file.created_at)}</td>
-					<td class="px-4 py-3 flex justify-center">
+					<td class="flex justify-center px-4 py-3">
 						<button
-            type="button"
-							class="p-1 text-orange-500 hover:text-orange-600 hover:cursor-pointer"
+							aria-label="Download"
+							type="button"
+							class="p-1 text-orange-500 hover:cursor-pointer hover:text-orange-600"
 							on:click|stopPropagation={() =>
 								window.open(`/api/files/${file.id}/download`, '_blank')}
 							title="Download"
