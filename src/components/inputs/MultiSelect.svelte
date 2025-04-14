@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-
 	export let options: string[] = [];
 	export let selected: string[] = [];
 	export let placeholder = 'Select options';
+	export let onChange: (value: string[]) => void = () => {};
 
-	const dispatch = createEventDispatcher();
 	let isOpen = false;
 
 	function toggleDropdown() {
@@ -25,7 +23,7 @@
 		} else {
 			selected = [...selected, option];
 		}
-		dispatch('change', selected);
+		onChange(selected);
 	}
 </script>
 
@@ -35,7 +33,7 @@
 	<div
 		role="button"
 		tabindex="0"
-    class="flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg border border-gray-300 bg-white px-4 py-2 focus:border-gray-400 focus:outline-none"
+		class="flex w-full cursor-pointer appearance-none items-center justify-between rounded-lg border border-gray-300 bg-white px-4 py-2 focus:border-gray-400 focus:outline-none"
 		on:click={toggleDropdown}
 		on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && toggleDropdown()}
 	>

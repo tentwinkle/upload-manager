@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	export let title: string;
 	export let isOpen: boolean = false;
 	export let size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
-
-	const dispatch = createEventDispatcher();
+	export let onClose: () => void = () => {};
 
 	function close() {
-		dispatch('close');
+		onClose();
 	}
 
 	function handleEscape(e: KeyboardEvent) {

@@ -22,17 +22,13 @@
     }
   });
   
-  function handleFileUploaded(event: CustomEvent) {
-    files = [event.detail, ...files];
+  function handleFileUploaded(file: FileEntry) {
+    files = [file, ...files];
     isUploadModalOpen = false;
   }
   
   function openUploadModal() {
     isUploadModalOpen = true;
-  }
-  
-  function closeUploadModal() {
-    isUploadModalOpen = false;
   }
 </script>
 
@@ -79,10 +75,10 @@
   <Modal 
     title="Upload Resource" 
     isOpen={isUploadModalOpen} 
-    on:close={closeUploadModal}
+    onClose={() => (isUploadModalOpen = false)}
     size="xl"
   >
-    <FileUploadForm on:fileUploaded={handleFileUploaded} />
+    <FileUploadForm onFileUploaded={(file) => handleFileUploaded(file)} />
   </Modal>
 </div>
 
