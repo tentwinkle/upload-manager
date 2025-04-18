@@ -7,7 +7,7 @@
 	export let onSearch: (query: string) => Promise<void> = async () => {};
 	export let loading: boolean = false;
 
-	let searchQuery = '';
+	export let searchQuery: string = '';
 	let searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
 	function handleSearch() {

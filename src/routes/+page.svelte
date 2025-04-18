@@ -8,6 +8,7 @@
   let files: FileEntry[] = [];
   let loading = true;
   let isUploadModalOpen = false;
+  let searchQuery = '';
 
   async function loadFiles(searchQuery: string) {
     loading = true;
@@ -75,7 +76,7 @@
         </button>
       </div>
     {:else}
-    <FilesTable {files} {loading} onSearch={loadFiles} />
+    <FilesTable {files} {loading} onSearch={loadFiles} bind:searchQuery={searchQuery} />
     {/if}
   </div>
   
