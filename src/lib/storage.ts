@@ -1,22 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { env } from '$env/dynamic/private';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { env } from "$env/dynamic/private"
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
+import { dirname } from "path"
+
+function getUploadsPath(filename = ""): string {
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = dirname(__filename)
+  return path.join(__dirname, "../../uploads", filename)
+}
 
 // Determine if we're using cloud storage or local storage
-const useCloudStorage = !!env.CLOUD_STORAGE_ENABLED;
+const useCloudStorage = !!env.CLOUD_STORAGE_ENABLED
 
 // For local storage, we need to create the uploads directory
 if (!useCloudStorage) {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const uploadsDir = path.join(__dirname, '../../uploads');
-  
+  const uploadsDir = getUploadsPath()
   // Create uploads directory if it doesn't exist
   if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
+    fs.mkdirSync(uploadsDir, { recursive: true })
   }
 }
 
@@ -32,14 +35,14 @@ export const storage = {
   uploadFile: async (filename: string, data: Uint8Array, contentType: string): Promise<string> => {
     if (useCloudStorage) {
       // For now, we'll just use local storage as a fallback
-      return await localUploadFile(filename, data);
+      return await localUploadFile(filename, data)
     } else {
       // Use local file system storage
-      return await localUploadFile(filename, data);
+      return await localUploadFile(filename, data)
       // throw new Error('Cloud storage not enabled');
     }
   },
-  
+
   /**
    * Get a file from storage
    * @param filePath The path to the file in storage
@@ -48,52 +51,42 @@ export const storage = {
   getFile: async (filePath: string): Promise<Buffer> => {
     if (useCloudStorage) {
       // For now, we'll just use local storage as a fallback
-      return await localGetFile(filePath);
+      return await localGetFile(filePath)
     } else {
       // Use local file system storage
-      return await localGetFile(filePath);
+      return await localGetFile(filePath)
     }
   },
-  
+
   /**
    * Delete a file from storage
    * @param filePath The path to the file in storage
    */
   deleteFile: async (filePath: string): Promise<void> => {
-    if (useCloudStorage) {  
+    if (useCloudStorage) {
       // For now, we'll just use local storage as a fallback
-      await localDeleteFile(filePath);
+      await localDeleteFile(filePath)
     } else {
       // Use local file system storage
-      await localDeleteFile(filePath);
+      await localDeleteFile(filePath)
     }
-  }
-};
+  },
+}
 
 // Local storage implementation
 async function localUploadFile(filename: string, data: Uint8Array): Promise<string> {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const filePath = path.join(__dirname, '../../uploads', filename);
-  
-  await fs.promises.writeFile(filePath, data);
-  
+  const filePath = getUploadsPath(filename)
+  await fs.promises.writeFile(filePath, data)
   // Return the relative path to the file
-  return filename;
+  return filename
 }
 
 async function localGetFile(filePath: string): Promise<Buffer> {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const fullPath = path.join(__dirname, '../../uploads', filePath);
-  
-  return await fs.promises.readFile(fullPath);
+  const fullPath = getUploadsPath(filePath)
+  return await fs.promises.readFile(fullPath)
 }
 
 async function localDeleteFile(filePath: string): Promise<void> {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const fullPath = path.join(__dirname, '../../uploads', filePath);
-  
-  await fs.promises.unlink(fullPath);
+  const fullPath = getUploadsPath(filePath)
+  await fs.promises.unlink(fullPath)
 }
