@@ -8,18 +8,25 @@
   let files: FileEntry[] = [];
   let loading = true;
   let isUploadModalOpen = false;
-  
-  onMount(async () => {
+
+  async function loadFiles(searchQuery: string) {
+    loading = true;
     try {
-      const response = await fetch('/api/files');
+      const url = searchQuery ? `/api/files?q=${encodeURIComponent(searchQuery)}` : '/api/files';
+      const response = await fetch(url);
       if (response.ok) {
         files = await response.json();
+        console.log('Files:', files);
       }
     } catch (error) {
       console.error('Failed to fetch files:', error);
     } finally {
       loading = false;
     }
+  }
+  
+  onMount(async () => {
+    loadFiles('');
   });
   
   function handleFileUploaded(file: FileEntry) {
@@ -68,7 +75,7 @@
         </button>
       </div>
     {:else}
-      <FilesTable {files} />
+    <FilesTable {files} {loading} onSearch={loadFiles} />
     {/if}
   </div>
   

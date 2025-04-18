@@ -4,18 +4,42 @@ import { db } from '$lib/db';
 import { storage } from '$lib/storage';
 import { v4 as uuidv4 } from 'uuid';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ url }) => {
   try {
+    const searchQuery = url.searchParams.get("q") || ""
+
+    // If no search query, return all files
+    if (!searchQuery.trim()) {
+      const files = await db.query(
+        "SELECT id, title, description, category, language, provider, roles, filename, created_at FROM files ORDER BY created_at DESC",
+      )
+      return json(files.rows)
+    }
+
+    // If search query exists, filter the results
+    const searchPattern = `%${searchQuery}%`
     const files = await db.query(
-      'SELECT id, title, description, category, language, provider, roles, filename, created_at FROM files ORDER BY created_at DESC'
+      `SELECT id, title, description, category, language, provider, roles, filename, created_at 
+       FROM files 
+       WHERE 
+         title ILIKE $1 OR
+         description ILIKE $1 OR
+         category ILIKE $1 OR
+         language ILIKE $1 OR
+         provider ILIKE $1 OR
+         filename ILIKE $1 OR
+         array_to_string(roles, ',') ILIKE $1
+       ORDER BY created_at DESC`,
+      [searchPattern]
     );
     
-    return json(files.rows);
+
+    return json(files.rows)
   } catch (error) {
-    console.error('Error fetching files:', error);
-    return json({ error: 'Failed to fetch files' }, { status: 500 });
+    console.error("Error fetching files:", error)
+    return json({ error: "Failed to fetch files" }, { status: 500 })
   }
-};
+}
 
 export const POST: RequestHandler = async ({ request }) => {
   try {

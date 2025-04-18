@@ -1,7 +1,33 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { FileEntry } from '../types';
 
 	export let files: FileEntry[] = [];
+
+	export let onSearch: (query: string) => Promise<void> = async () => {};
+	export let loading: boolean = false;
+
+	let searchQuery = '';
+	let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	function handleSearch() {
+		// Clear any existing timeout
+		if (searchTimeout) {
+			clearTimeout(searchTimeout);
+		}
+
+		// Debounce the search query to avoid too many requests
+		searchTimeout = setTimeout(async () => {
+			await onSearch(searchQuery);
+		}, 300); // 300ms debounce
+	}
+
+	// Clean up timeout on component destroy
+	onDestroy(() => {
+		if (searchTimeout) {
+			clearTimeout(searchTimeout);
+		}
+	});
 
 	function formatDate(dateString: string): string {
 		const date = new Date(dateString);
@@ -61,6 +87,34 @@
 		}
 	}
 </script>
+
+<div class="mb-4 flex items-center">
+	<input
+		type="text"
+		bind:value={searchQuery}
+		on:input={handleSearch}
+		class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-400"
+		placeholder="Search by title..."
+	/>
+
+	{#if loading}
+		<div class="ml-2 flex items-center">
+			<svg
+				class="animate-spin h-5 w-5 text-gray-500"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+				<path
+					class="opacity-75"
+					fill="currentColor"
+					d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+				/>
+			</svg>
+		</div>
+	{/if}
+</div>
 
 <div class="overflow-x-auto">
 	<table class="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
